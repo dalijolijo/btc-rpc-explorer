@@ -24,16 +24,16 @@ Live demos are available at:
 * Optional transaction history for addresses by querying configurable ElectrumX servers
 * Mempool summary, with fee, size, and age breakdowns
 * RPC command browser and terminal
-* Currently supports BTC, LTC (support for any Bitcoin-RPC-protocol-compliant coin can be added easily)
+* Currently supports BTC, LTC, BTX (support for any Bitcoin-RPC-protocol-compliant coin can be added easily)
 
 # Getting started
 
-The below instructions are geared toward BTC, but can be adapted easily to other coins.
+The below instructions are geared toward BTX, but can be adapted easily to other coins.
 
 ## Prerequisites
 
 1. Install and run a full, archiving node - [instructions](https://bitcoin.org/en/full-node). Ensure that your bitcoin node has full transaction indexing enabled (`txindex=1`) and the RPC server enabled (`server=1`).
-2. Synchronize your node with the Bitcoin network.
+2. Synchronize your node with the Bitcore network.
 3. "Recent" version of Node.js (8+ recommended).
 
 ## Instructions
