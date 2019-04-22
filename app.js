@@ -106,9 +106,9 @@ function logNetworkStats() {
 			var miningInfo = promiseResults[1];
 			var blockchainInfo = promiseResults[2];
 
-			//console.log("mempoolInfo: " + JSON.stringify(mempoolInfo));
-			//console.log("miningInfo: " + JSON.stringify(miningInfo));
-			//console.log("blockchainInfo: " + JSON.stringify(blockchainInfo));
+			console.log("mempoolInfo: " + JSON.stringify(mempoolInfo));
+			console.log("miningInfo: " + JSON.stringify(miningInfo));
+			console.log("blockchainInfo: " + JSON.stringify(blockchainInfo));
 
 			var points = [];
 
@@ -213,8 +213,8 @@ function logBlockStats() {
 						points.push({measurement:`${global.coinConfig.name.toLowerCase()}.blocks.${key}`, fields:{value:blockInfo[key]}, timestamp:timestamp});
 					}
 
-					//console.log("block: " + block.height + ": " + JSON.stringify(blockInfo, null, 4));
-					//console.log("points: " + JSON.stringify(points, null, 4));
+					console.log("block: " + block.height + ": " + JSON.stringify(blockInfo, null, 4));
+					console.log("points: " + JSON.stringify(points, null, 4));
 				}
 
 				global.influxdb.writePoints(points).catch(err => {
@@ -257,7 +257,7 @@ function loadMiningPoolConfigs() {
 
 function getSourcecodeProjectMetadata() {
 	var options = {
-		url: "https://api.github.com/repos/janoside/btc-rpc-explorer",
+		url: "https://api.github.com/repos/dalijolijo/btc-rpc-explorer",
 		headers: {
 			'User-Agent': 'request'
 		}
@@ -322,7 +322,7 @@ app.runOnStartup = function() {
 				global.donationAddressQrCodeUrls[coinId] = url;
 			});
 		};
-
+		console.log("DEBUG donationAddressQrCodeUrls");
 		global.donationAddressQrCodeUrls = {};
 
 		config.donations.addresses.coins.forEach(function(item) {
@@ -365,16 +365,16 @@ app.runOnStartup = function() {
 
 	loadMiningPoolConfigs();
 
-	if (global.sourcecodeVersion == null && fs.existsSync('.git')) {
-		simpleGit(".").log(["-n 1"], function(err, log) {
-			if (err) {
-				return console.error(`Error accessing git repo: ${err}`);
-			}
-			
-			global.sourcecodeVersion = log.all[0].hash.substring(0, 10);
-			global.sourcecodeDate = log.all[0].date.substring(0, "0000-00-00".length);
-		});
-	}
+	//if (global.sourcecodeVersion == null && fs.existsSync('.git')) {
+	//	simpleGit(".").log(["-n 1"], function(err, log) {
+	//		if (err) {
+	//			return console.error(`Error accessing git repo: ${err}`);
+	//		}
+	//		
+	//		global.sourcecodeVersion = log.all[0].hash.substring(0, 10);
+	//		global.sourcecodeDate = log.all[0].date.substring(0, "0000-00-00".length);
+	//	});
+	//}
 
 	if (config.demoSite) {
 		getSourcecodeProjectMetadata();
@@ -393,6 +393,8 @@ app.runOnStartup = function() {
 
 	utils.logMemoryUsage();
 	setInterval(utils.logMemoryUsage, 5000);
+
+	console.log("DEBUG app.runOnStartup");
 };
 
 app.use(function(req, res, next) {

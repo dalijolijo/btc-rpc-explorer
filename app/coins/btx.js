@@ -112,7 +112,7 @@ module.exports = {
 			summary: "The Bitcore genesis block.",
 			alertBodyHtml: "This is the first block in the Bitcore blockchain.",
 			referenceUrl: ""
-		},
+		/*},
 		{
 			type: "tx", //TODO
 			date: "2017-05-10",
@@ -126,7 +126,8 @@ module.exports = {
 			blockHeight: 448,
 			blockHash: "6995d69ce2cb7768ef27f55e02dd1772d452deb44e1716bb1dd9c29409edf252",
 			summary: "The first block containing a (non-coinbase) transaction.",
-			referenceUrl: ""
+			referenceUrl: "" 
+		*/
 		}
 	],
 	exchangeRateData:{

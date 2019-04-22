@@ -1,0 +1,85 @@
+version: '2'
+
+services:
+
+  #https://docs.docker.com/samples/library/influxdb/
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.10
+    #ports:
+    #  - 8086:8086
+    expose:
+      - 8086
+    volumes:
+      - influx-storage:/var/lib/influxdb
+    environment:
+      - "INFLUXDB_ADMIN_ENABLED=true"
+      - "INFLUXDB_WRITE_DB=influxdb" 
+      - "INFLUXDB_WRITE_USER=dbuser"
+      - "INFLUXDB_USER_PASSWORD=bitcore"
+
+  bitcored:
+    image: dalijolijo/bitcored
+    container_name: bitcored
+    command: -rpcuser=rpcuser -rpcpassword=bitcore
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.12
+    ports:
+      - 8555:8555
+    expose:
+      - 8556
+    volumes:
+      - ./bitcore:/data 
+  
+  explorer:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.explorer
+    image: btx-explorer
+    container_name: btx-explorer 
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.13
+    ports:
+      - 3002:3002
+    expose:
+      - 3002
+    environment:
+      - "BTCEXP_INFLUXDB_URI=influx://dbuser:bitcore@172.21.0.10:8086"
+      - "BTCEXP_BITCOIND_URI=bitcore://rpcuser:bitcore@172.21.0.12:8556?timeout=10000"
+    depends_on:
+      - influxdb
+      - bitcored
+  
+  # Grafana : http://localhost:3000/
+#  grafana:
+#    image: grafana/grafana:latest
+#    container_name: grafana
+#    restart: always
+#    networks:
+#      bitdb-net:
+#        ipv4_address: 172.21.0.15
+#    ports:
+#      - 3002:3002
+#    volumes:
+#      - grafana-storage:/var/lib/grafana
+#    environment:
+#      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-worldmap-panel
+
+volumes:
+  influx-storage:
+
+networks:
+  explorer-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/24
