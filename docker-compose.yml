@@ -2,26 +2,6 @@ version: '2'
 
 services:
 
-  #https://docs.docker.com/samples/library/influxdb/
-  influxdb:
-    image: influxdb:latest
-    container_name: influxdb
-    restart: always
-    networks:
-      explorer-net:
-        ipv4_address: 172.21.0.10
-    #ports:
-    #  - 8086:8086
-    expose:
-      - 8086
-    volumes:
-      - influx-storage:/var/lib/influxdb
-    environment:
-      - "INFLUXDB_ADMIN_ENABLED=true"
-      - "INFLUXDB_WRITE_DB=influxdb" 
-      - "INFLUXDB_WRITE_USER=dbuser"
-      - "INFLUXDB_USER_PASSWORD=bitcore"
-
   bitcored:
     image: dalijolijo/bitcored
     container_name: bitcored
@@ -57,24 +37,73 @@ services:
     depends_on:
       - influxdb
       - bitcored
+
+  #https://docs.docker.com/samples/library/influxdb/
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.10
+    ports:
+      - 8086:8086
+    expose:
+      - 8086
+    volumes:
+      - influx-storage:/var/lib/influxdb
+    environment:
+      - "INFLUXDB_ADMIN_ENABLED=true"
+      - "INFLUXDB_DB=db0"
+      - "INFLUXDB_ADMIN_USER=dbuser"
+      - "INFLUXDB_ADMIN_PASSWORD=bitcore"
+
+  #http:127.0.0.1:8888
+  chronograf:
+    image: chronograf:latest
+    container_name: chronograf
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.14
+    ports:
+      - 127.0.0.1:8888:8888
+    expose:
+      - 8888
+    volumes:
+      - chronograf-storage:/var/lib/chronograf
+    environment:
+      - "INFLUXDB_URL=http://influxdb:8086"
+      - "INFLUXDB_USERNAME=dbuser"
+      - "INFLUXDB_PASSWORD=bitcore"
+    depends_on:
+      - influxdb
   
-  # Grafana : http://localhost:3000/
-#  grafana:
-#    image: grafana/grafana:latest
-#    container_name: grafana
-#    restart: always
-#    networks:
-#      bitdb-net:
-#        ipv4_address: 172.21.0.15
-#    ports:
-#      - 3002:3002
-#    volumes:
-#      - grafana-storage:/var/lib/grafana
-#    environment:
-#      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-worldmap-panel
+   #http://localhost:3000
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.15
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana-provisioning/:/etc/grafana/provisioning
+    environment:
+      - "GF_SECURITY_ADMIN_USER=dbuser"
+      - "GF_SECURITY_ADMIN_PASSWORD=bitcore"
+    depends_on:
+      - influxdb
 
 volumes:
   influx-storage:
+  chronograf-storage:
+  grafana-storage:
 
 networks:
   explorer-net:
