@@ -231,7 +231,7 @@ function logAppStats() {
 		});
 
 		global.influxdb.writePoints(points).catch(err => {
-			console.error(`Error saving data to InfluxDB: ${err.stack}`);
+			console.error(`util234 Error saving data to InfluxDB: ${err.stack}`);
 		});
 	}
 }
@@ -364,7 +364,7 @@ function refreshExchangeRates() {
 						//console.log("pts: " + JSON.stringify(points));
 
 						global.influxdb.writePoints(points).catch(err => {
-							console.error(`Error saving data to InfluxDB: ${err.stack}`)
+							console.error(`util367 Error saving data to InfluxDB: ${err.stack}`)
 						});
 					}
 

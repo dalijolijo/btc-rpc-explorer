@@ -86,7 +86,7 @@ process.on("unhandledRejection", (reason, p) => {
 		});
 
 		global.influxdb.writePoints(points).catch(err => {
-			console.error(`Error saving data to InfluxDB: ${err.stack}`);
+			console.error(`89 Error saving data to InfluxDB: ${err.stack}`);
 		});
 	}
 });
@@ -158,7 +158,7 @@ function logNetworkStats() {
 			//console.log("Points to send to InfluxDB: " + JSON.stringify(points, null, 4));
 
 			global.influxdb.writePoints(points).catch(err => {
-				console.error(`Error saving data to InfluxDB: ${err.stack}`);
+				console.error(`161 Error saving data to InfluxDB: ${err.stack}`);
 			});
 		}).catch(err => {
 			console.log(`Error logging network stats: ${err}`);
@@ -218,7 +218,7 @@ function logBlockStats() {
 				}
 
 				global.influxdb.writePoints(points).catch(err => {
-					console.error(`Error saving data to InfluxDB: ${err.stack}`);
+					console.error(`221 Error saving data to InfluxDB: ${err.stack}`);
 				});
 			});
 		}).catch(function(err) {
@@ -534,7 +534,7 @@ app.use(function(req, res, next) {
 		});
 
 		global.influxdb.writePoints(points).catch(err => {
-			console.error(`Error saving data to InfluxDB: ${err.stack}`);
+			console.error(`537 Error saving data to InfluxDB: ${err.stack}`);
 		});
 	}
 });

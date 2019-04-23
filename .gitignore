@@ -59,3 +59,6 @@ typings/
 
 #bitcore
 bitcore
+
+#grafana
+grafana-provisioning

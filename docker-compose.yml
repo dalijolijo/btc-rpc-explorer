@@ -3,8 +3,11 @@ version: '2'
 services:
 
   bitcored:
-    image: dalijolijo/bitcored
-    container_name: bitcored
+    build:
+      context: ./docker
+      dockerfile: ./Dockerfile.bitcored
+    image: explorer-bitcored
+    container_name: explorer-bitcored
     command: -rpcuser=rpcuser -rpcpassword=bitcore
     restart: always
     networks:
@@ -33,12 +36,13 @@ services:
       - 3002
     environment:
       - "BTCEXP_INFLUXDB_URI=influx://dbuser:bitcore@172.21.0.10:8086"
-      - "BTCEXP_BITCOIND_URI=bitcore://rpcuser:bitcore@172.21.0.12:8556?timeout=10000"
+      - "BTCEXP_BITCOIND_URI=bitcore://rpcuser:bitcore@172.21.0.12:8556?timeout=50000"
     depends_on:
       - influxdb
       - bitcored
 
   #https://docs.docker.com/samples/library/influxdb/
+  #http://localhost:8086
   influxdb:
     image: influxdb:latest
     container_name: influxdb
@@ -47,14 +51,17 @@ services:
       explorer-net:
         ipv4_address: 172.21.0.10
     ports:
-      - 8086:8086
+      - 8083:8083
     expose:
+      - 8083
       - 8086
     volumes:
       - influx-storage:/var/lib/influxdb
     environment:
       - "INFLUXDB_ADMIN_ENABLED=true"
-      - "INFLUXDB_DB=db0"
+      - "INFLUXDB_HTTP_AUTH_ENABLED=false"
+      - "INFLUXDB_DB=influxdb"
+      - PRE_CREATE_DB="influxdb"
       - "INFLUXDB_ADMIN_USER=dbuser"
       - "INFLUXDB_ADMIN_PASSWORD=bitcore"
 
@@ -73,13 +80,15 @@ services:
     volumes:
       - chronograf-storage:/var/lib/chronograf
     environment:
-      - "INFLUXDB_URL=http://influxdb:8086"
+      - "INFLUXDB_URL=http://172.21.0.10:8086"
       - "INFLUXDB_USERNAME=dbuser"
       - "INFLUXDB_PASSWORD=bitcore"
+    command: 
+      - "--influxdb-url=http://172.21.0.10:8086"
     depends_on:
       - influxdb
   
-   #http://localhost:3000
+  #http://localhost:3000
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
