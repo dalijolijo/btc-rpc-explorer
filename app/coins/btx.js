@@ -60,44 +60,44 @@ module.exports = {
 	miningPoolsConfigUrls:[
 		"https://raw.githubusercontent.com/hashstream/pools/master/pools.json",
 	],
-	maxBlockWeight: 4000000, //TODO
-	targetBlockTimeSeconds: 150, //BTX
+	maxBlockWeight: 20000000, //20MB
+	targetBlockTimeSeconds: 150, //2.5min
 	currencyUnits:currencyUnits,
 	currencyUnitsByName:{"BTX":currencyUnits[0], "mBTX":currencyUnits[1], "bits":currencyUnits[2], "sat":currencyUnits[3]},
 	baseCurrencyUnit:currencyUnits[3],
 	defaultCurrencyUnit:currencyUnits[0],
 	feeSatoshiPerByteBucketMaxima: [5, 10, 25, 50, 100, 150, 200, 250],
-	genesisBlockHash: "604148281e5c4b7f2487e5d03cd60d8e6f69411d613f6448034508cea52e9574", //BTX
-	genesisCoinbaseTransactionId: "1669526520b4e037738825c5f09c01c8f6ef6a3a5ee552e65e6d0141507987c7", //BTX
+	genesisBlockHash: "604148281e5c4b7f2487e5d03cd60d8e6f69411d613f6448034508cea52e9574",
+	genesisCoinbaseTransactionId: "1669526520b4e037738825c5f09c01c8f6ef6a3a5ee552e65e6d0141507987c7",
 	genesisCoinbaseTransaction: {
-		"txid":"1669526520b4e037738825c5f09c01c8f6ef6a3a5ee552e65e6d0141507987c7", //BTX
-		"hash":"04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f", //BTX
-		"blockhash":"604148281e5c4b7f2487e5d03cd60d8e6f69411d613f6448034508cea52e9574", //BTX
-		"version":1, //BTX
-		"locktime":0, //BTX
-		"size":272, //TODO
-		"vsize":272, //TODO
-		"time":1317972665, //TODO
-		"blocktime":1317972665, //TODO 
-		"vin":[
+		"hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4004ffff001d010438506f77657264652062792042697473656e642d4575726f7065636f696e2d4469616d6f6e642d4d41432d42332032332f4170722f32303137ffffffff010000000000000000434104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac00000000",
+		"txid": "1669526520b4e037738825c5f09c01c8f6ef6a3a5ee552e65e6d0141507987c7",
+		"hash": "1669526520b4e037738825c5f09c01c8f6ef6a3a5ee552e65e6d0141507987c7",
+		"blockhash": "604148281e5c4b7f2487e5d03cd60d8e6f69411d613f6448034508cea52e9574",
+		"version": 1,
+		"size": 191,
+		"vsize": 191,
+		"locktime":0,
+		"time": 1492973331,
+		"blocktime": 1492973331,
+		"confirmations":380198,
+		"vin": [
 			{
-				"prev_out":{
-					"hash":"0000000000000000000000000000000000000000000000000000000000000000", //BTX
-					"n":4294967295 //TODO
-				}, //coinbase BTX
-				"coinbase":"04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73"
+				"coinbase": "04ffff001d010438506f77657264652062792042697473656e642d4575726f7065636f696e2d4469616d6f6e642d4d41432d42332032332f4170722f32303137",
+				"sequence": 4294967295
 			}
 		],
-		"vout":[
+		"vout": [
 			{
-				"value":"0.00000000", //TODO
-				"n":0,
-				"scriptPubKey":{ //TODO
-					"hex":"040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9 OP_CHECKSIG",
-					"type":"pubkey",
-					"reqSigs":1, //TODO
-					"addresses":[
-						"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" //TODO
+				"value": 0.00000000,
+				"n": 0,
+				"scriptPubKey": {
+					"asm": "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f OP_CHECKSIG",
+					"hex": "4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac",
+					"reqSigs": 1,
+					"type": "pubkey",
+					"addresses": [
+						"2N2oLLYFCwfH81SUReTcuhtoEHgwHYHQNq"
 					]
 				}
 			}
