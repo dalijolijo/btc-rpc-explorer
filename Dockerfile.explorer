@@ -7,6 +7,7 @@ WORKDIR /explorer
 COPY . . 
 RUN rm -rf grafana-provisioning bitcore node_modules docker
 RUN npm install
+RUN npn run build
 
 #CMD [ "pm2-runtime", "npm", "--", "start" ]
 CMD npm start 
