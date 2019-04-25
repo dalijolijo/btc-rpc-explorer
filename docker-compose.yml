@@ -66,53 +66,53 @@ services:
       - "INFLUXDB_ADMIN_PASSWORD=bitcore"
 
   #http:127.0.0.1:8888
-  chronograf:
-    image: chronograf:latest
-    container_name: chronograf
-    restart: always
-    networks:
-      explorer-net:
-        ipv4_address: 172.21.0.14
-    ports:
-      - 127.0.0.1:8888:8888
-    expose:
-      - 8888
-    volumes:
-      - chronograf-storage:/var/lib/chronograf
-    environment:
-      - "INFLUXDB_URL=http://172.21.0.10:8086"
-      - "INFLUXDB_USERNAME=dbuser"
-      - "INFLUXDB_PASSWORD=bitcore"
-    command: 
-      - "--influxdb-url=http://172.21.0.10:8086"
-    depends_on:
-      - influxdb
+  #chronograf:
+  #  image: chronograf:latest
+  #  container_name: chronograf
+  #  restart: always
+  #  networks:
+  #    explorer-net:
+  #      ipv4_address: 172.21.0.14
+  #  ports:
+  #    - 127.0.0.1:8888:8888
+  #  expose:
+  #    - 8888
+  #  volumes:
+  #    - chronograf-storage:/var/lib/chronograf
+  #  environment:
+  #    - "INFLUXDB_URL=http://172.21.0.10:8086"
+  #    - "INFLUXDB_USERNAME=dbuser"
+  #    - "INFLUXDB_PASSWORD=bitcore"
+  #  command: 
+  #    - "--influxdb-url=http://172.21.0.10:8086"
+  #  depends_on:
+  #    - influxdb
   
   #http://localhost:3000
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    restart: always
-    networks:
-      explorer-net:
-        ipv4_address: 172.21.0.15
-    ports:
-      - 3000:3000
-    expose:
-      - 3000
-    volumes:
-      - grafana-storage:/var/lib/grafana
-      - ./grafana-provisioning/:/etc/grafana/provisioning
-    environment:
-      - "GF_SECURITY_ADMIN_USER=dbuser"
-      - "GF_SECURITY_ADMIN_PASSWORD=bitcore"
-    depends_on:
-      - influxdb
+  #grafana:
+  #  image: grafana/grafana:latest
+  #  container_name: grafana
+  #  restart: always
+  #  networks:
+  #    explorer-net:
+  #      ipv4_address: 172.21.0.15
+  #  ports:
+  #    - 3000:3000
+  #  expose:
+  #    - 3000
+  #  volumes:
+  #    - grafana-storage:/var/lib/grafana
+  #    - ./grafana-provisioning/:/etc/grafana/provisioning
+  #  environment:
+  #    - "GF_SECURITY_ADMIN_USER=dbuser"
+  #    - "GF_SECURITY_ADMIN_PASSWORD=bitcore"
+  #  depends_on:
+  #    - influxdb
 
 volumes:
   influx-storage:
-  chronograf-storage:
-  grafana-storage:
+  #chronograf-storage:
+  #grafana-storage:
 
 networks:
   explorer-net:
