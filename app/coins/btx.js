@@ -60,8 +60,8 @@ module.exports = {
 	miningPoolsConfigUrls:[
 		"https://raw.githubusercontent.com/hashstream/pools/master/pools.json",
 	],
-	maxBlockWeight: 20000000, //20MB
-	targetBlockTimeSeconds: 150, //2.5min
+	maxBlockWeight: 20000000, //20MB okay mit segwit
+	targetBlockTimeSeconds: 150, //2.5min okay
 	currencyUnits:currencyUnits,
 	currencyUnitsByName:{"BTX":currencyUnits[0], "mBTX":currencyUnits[1], "bits":currencyUnits[2], "sat":currencyUnits[3]},
 	baseCurrencyUnit:currencyUnits[3],
@@ -112,14 +112,15 @@ module.exports = {
 			summary: "The Bitcore genesis block.",
 			alertBodyHtml: "This is the first block in the Bitcore blockchain.",
 			referenceUrl: ""
-		/*},
-		{
-			type: "tx", //TODO
-			date: "2017-05-10",
-			txid: "ce385e55fb2a73fa438426145b074f08314812fa3396472dc572b3079e26e0f9",
-			summary: "First SegWit transaction.",
-			referenceUrl: ""
 		},
+		{
+			type: "Segwit", 
+			date: "2017-05-10",
+			blockHeight: 3000,
+			blockHash: "a8f3645f66e662f9f784d41a90235f3186c146880a57f5513a5c36d061f3802b",
+			summary: "First SegWit Block.",
+			referenceUrl: ""
+		/*},
 		{
 			type: "blockheight", //TODO
 			date: "2011-10-13",
@@ -142,14 +143,38 @@ module.exports = {
 		}
 	},
 	blockRewardFunction:function(blockHeight) { //TODO
-		var eras = [ new Decimal8(50) ];
+		var eras = [ new Decimal8(12.5) ];
+		var index = 1;
+		var BTXFullblock = (42987 + 10000)*4;
+		var halvings = blockHeight+BTXFullblock) / 840000;
+		if (blockHeight == 1)
+		{
+			eras = [ new Decimal8(16287337.5) ];
+		        return eras[index];
+		} 
+		else if (blockHeight <= 10000)
+		{  
+			return eras[index]; //default
+		}
+		else if (blockHeight > 10000)
+		{  
+			eras = [ new Decimal8(3.25) ];
+			if (halvings >= 256) 
+			{ 
+				eras = [ new Decimal8(0) ];
+				return eras[index];
+			}
+			index = Math.floor((blockHeight+BTXFullblock) / 840000);
+			return eras[index]; //Todo sollte im default 3.25 rauskommen
+		}
+		/*
 		for (var i = 1; i < 34; i++) {
 			var previous = eras[i - 1];
 			eras.push(new Decimal8(previous).dividedBy(2));
 		}
 
-		var index = Math.floor(blockHeight / 840000);
-
+		index = Math.floor(blockHeight / 840000);
 		return eras[index];
+		*/
 	}
 };
