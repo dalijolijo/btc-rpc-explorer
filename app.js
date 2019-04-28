@@ -168,27 +168,37 @@ function logNetworkStats() {
 
 function logBlockStats() {
 	if (global.influxdb) {
+		console.log("DEBUG_1 logBlockStats");
 		if (global.blockStatsStatus == null) {
 			global.blockStatsStatus = {currentBlock:-1};
+			console.log("DEBUG_2 logBlockStats - blockStatsStatus: " + global.blockStatsStatus);
 		}
 
 		coreApi.getBlockchainInfo().then(function(getblockchaininfo) {
+			console.log("DEBUG_3 logBlockStats");
 			var blockHeights = [];
 			if (getblockchaininfo.blocks) {
+				console.log("DEBUG_4 logBlockStats - getblockchaininfo.blocks: " + getblockchaininfo.blocks);
 				for (var i = 0; i < 5; i++) {
+					console.log("DEBUG_5 logBlockStats");
 					blockHeights.push(getblockchaininfo.blocks - i);
 				}
 			}
 
 			coreApi.getBlocksByHeight(blockHeights).then(function(blocks) {
+				console.log("DEBUG_6 logBlockStats - blocks.length:" + blocks.length);
 				var points = [];
 
 				for (var i = 0; i < blocks.length; i++) {
+					console.log("DEBUG_7 logBlockStats - i: " + i);
 					var block = blocks[i];
 
 					var totalfees = new Decimal(parseFloat(block.totalFees));
+					console.log("totalfees: " + totalfees);
 					var blockreward = new Decimal(parseFloat(global.coinConfig.blockRewardFunction(block.height)));
+					console.log("blockreward: " + blockreward);
 					var timestamp = new Date(block.time * 1000);
+					console.log("timestamp: " + timestamp);
 
 					var blockInfo = {
 						strippedsize:block.strippedsize,
@@ -306,10 +316,12 @@ app.runOnStartup = function() {
 		console.log(`Connected via RPC to node. Basic info: version=${getnetworkinfo.version}, subversion=${getnetworkinfo.subversion}, protocolversion=${getnetworkinfo.protocolversion}, services=${getnetworkinfo.localservices}`);
 
 		if (global.influxdb != null) {
+			console.log("DEBUG logNetworkStats");
 			logNetworkStats();
 			setInterval(logNetworkStats, 1 * 60000);
 
 			logBlockStats();
+			console.log("DEBUG logBlockStats");
 			setInterval(logBlockStats, 5 * 60000);
 		}
 	}).catch(function(err) {

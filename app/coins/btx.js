@@ -112,22 +112,13 @@ module.exports = {
 			summary: "The Bitcore genesis block.",
 			alertBodyHtml: "This is the first block in the Bitcore blockchain.",
 			referenceUrl: ""
-		/*},
+		},
 		{
-			type: "tx", //TODO
+			type: "blockheight",
 			date: "2017-05-10",
 			txid: "ce385e55fb2a73fa438426145b074f08314812fa3396472dc572b3079e26e0f9",
 			summary: "First SegWit transaction.",
 			referenceUrl: ""
-		},
-		{
-			type: "blockheight", //TODO
-			date: "2011-10-13",
-			blockHeight: 448,
-			blockHash: "6995d69ce2cb7768ef27f55e02dd1772d452deb44e1716bb1dd9c29409edf252",
-			summary: "The first block containing a (non-coinbase) transaction.",
-			referenceUrl: "" 
-		*/
 		}
 	],
 	exchangeRateData:{
@@ -141,15 +132,40 @@ module.exports = {
 			return null;
 		}
 	},
-	blockRewardFunction:function(blockHeight) { //TODO
+	blockRewardFunction:function(blockHeight) {
 		var eras = [ new Decimal8(50) ];
+		var index = 1;
+		var BTXFullblock = (42987 + 10000)*4;
+		var halvings = blockHeight+BTXFullblock) / 840000;
+		if (blockHeight == 1)
+		{
+			eras = [ new Decimal8(16287337.5) ];
+			return eras[index];
+		}
+		else if (blockHeight <= 10000)
+		{
+			return eras[index]; //default
+		}
+		else if (blockHeight > 10000)
+		{
+			eras = [ new Decimal8(3.25) ];
+			if (halvings >= 256)
+			{
+				eras = [ new Decimal8(0) ];
+				return eras[index];
+			}
+			index = Math.floor((blockHeight+BTXFullblock) / 840000);
+			return eras[index]; //Todo sollte im default 3.25 rauskommen
+		}
+		/*
 		for (var i = 1; i < 34; i++) {
 			var previous = eras[i - 1];
 			eras.push(new Decimal8(previous).dividedBy(2));
 		}
 
-		var index = Math.floor(blockHeight / 840000);
+		var index = Math.floor(blockHeight / 210000);
 
 		return eras[index];
+		*/
 	}
 };
