@@ -66,6 +66,10 @@ See `btc-rpc-explorer --help` for the full list of CLI options.
 
 ## Run via Docker
 
-1. `docker build -t btc-rpc-explorer .`
-2. `docker run -p 3002:3002 -it btc-rpc-explorer`
+1. `docker build --build-arg url=<URL> --build-arg email=<EMAIL> --no-cache -t btc-rpc-explorer .`
+2. `docker run -p 3002:3002 -p 443:443 -p 80:80 -d btc-rpc-explorer`
 
+## Run via docker-compose
+
+1. `./install_docker.sh`
+2. `docker-compose up -d`
