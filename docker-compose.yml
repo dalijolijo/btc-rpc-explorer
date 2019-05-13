@@ -41,6 +41,17 @@ services:
       - influxdb
       - bitcored
 
+  cert:
+    build:
+      context: .
+      dockerfile: Dockerfile.cert
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/opt/certbot/src
+      - /opt/certbot/venv
+  
   #https://docs.docker.com/samples/library/influxdb/
   #http://localhost:8086
   influxdb:
