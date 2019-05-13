@@ -18,7 +18,7 @@ services:
     expose:
       - 8556
     volumes:
-      - ./bitcore:/data 
+      - bitcored-storage:/data 
   
   explorer:
     build:
@@ -111,6 +111,7 @@ services:
 
 volumes:
   influx-storage:
+  bitcored-storage:
   #chronograf-storage:
   #grafana-storage:
 
