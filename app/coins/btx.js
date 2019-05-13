@@ -136,7 +136,7 @@ module.exports = {
 		var eras = [ new Decimal8(50) ];
 		var index = 1;
 		var BTXFullblock = (42987 + 10000)*4;
-		var halvings = blockHeight+BTXFullblock) / 840000;
+		var halvings = (blockHeight + BTXFullblock) / 840000;
 		if (blockHeight == 1)
 		{
 			eras = [ new Decimal8(16287337.5) ];
@@ -154,7 +154,7 @@ module.exports = {
 				eras = [ new Decimal8(0) ];
 				return eras[index];
 			}
-			index = Math.floor((blockHeight+BTXFullblock) / 840000);
+			index = Math.floor((blockHeight + BTXFullblock) / 840000);
 			return eras[index]; //Todo sollte im default 3.25 rauskommen
 		}
 		/*
