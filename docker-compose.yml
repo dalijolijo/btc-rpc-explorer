@@ -4,7 +4,7 @@ services:
 
   bitcored:
     build:
-      context: ./docker
+      context: ./docker-bitcored
       dockerfile: ./Dockerfile.bitcored
     image: explorer-bitcored
     container_name: explorer-bitcored
@@ -41,13 +41,18 @@ services:
       - influxdb
       - bitcored
 
-  cert:
+  certbot:
     build:
-      context: .
-      dockerfile: Dockerfile.cert
+      context: ./certbot
+      dockerfile: Dockerfile
+    container_name: certbot
+    restart: always
+    networks:
+      explorer-net:
+        ipv4_address: 172.21.0.16
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
       - .:/opt/certbot/src
       - /opt/certbot/venv
